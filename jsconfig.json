@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", // Support modern JS
+    "module": "NodeNext", // Support both ESM & CJS resolution
+    "moduleResolution": "NodeNext", // Smartly resolve imports
+    "allowSyntheticDefaultImports": true, // Allow default import from CJS
+    "esModuleInterop": true, // Fixes 'import x from "pkg"' issues
+    "checkJs": false, // Enable type-checking for JS
+    "strict": true, // Enable strict checks
+    // "baseUrl": ".", // Root folder for absolute imports
+    "paths": {
+      "*": ["./*", "./src/*"] // ✅ ให้ค้นหาไฟล์จาก Root หรือใน src โดยตรงแทนการใช้ baseUrl
+    },
+    "resolveJsonModule": true // Allow importing .json files
+  },
+  "include": ["src/**/*.js"],
+  "exclude": ["node_modules", "dist"]
+}

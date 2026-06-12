@@ -1,0 +1,14 @@
+GET http://localhost:8899/api/auth/
+###
+
+GET http://localhost:8899/api/post
+###
+
+POST http://localhost:8899/api/auth/login
+Content-Type: application/json
+
+{
+ "identity": "audy@cc21.web",
+ "password" : "a1234"
+}
+###

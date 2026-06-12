@@ -1,0 +1,13 @@
+import { PrismaClient } from "../generated/prisma/index.js";
+
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: process.env.DATABASE_URL,
+    },
+  },
+});
+
+prisma.$queryRaw`SHOW TABLES`.then((rs) => console.log(rs));
+
+export default prisma;
