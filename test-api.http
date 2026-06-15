@@ -1,13 +1,18 @@
+#Get me 
+GET http://localhost:8899/api/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzgxNTM5Mzg3LCJleHAiOjE3ODI4MzUzODd9.g11xJVDChy_OdL3HHCT4VIMCaTGkYfEb7b1e6ZtEmBs
+
+
 # Register api
 POST http://localhost:8899/api/auth/register HTTP/1.1
 content-type: application/json
 
 {
-  "identity" : "1111111112",
+  "identity" : "1111111115",
  #"identity" : "someone@ggg.mail",
  "firstName" : "someone",
  "lastName" : "codecamp",
- "password" : "12345",
+ "password" : "123456",
  "confirmPassword" : "123456"
 }
 ###

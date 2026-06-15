@@ -4,6 +4,7 @@ import createHttpError from "http-errors";
 import identityKeyUtil from "../utils/identity-key.util.js";
 import prisma from "../config/prisma.config.js";
 import { registerSchema, loginSchema } from "../validations/schema.js";
+import { createUser, getUserBy } from "../services/user.service.js";
 
 export const register = async (req, res, next) => {
   const { identity, firstName, lastName, password, confirmPassword } = req.body;
@@ -17,19 +18,20 @@ export const register = async (req, res, next) => {
   // ) {
   //   return next(createHttpError[400]("fill all inputs"));
   // }
-  const rs = registerSchema.parse(req.body);
-  console.log(rs);
+  const user = registerSchema.parse(req.body);
+  // const identityKey = user.email ? "email" : "mobile";  ของใหม่
+  const identityKey = identityKeyUtil(identity);
 
   // if (confirmPassword !== password) {
   //   return next(createHttpError[400](`Check Confirm-password`));
   // }
 
-  // Check Identity
-  const identityKey = identityKeyUtil(identity);
+  // // Check Identity
+  // const identityKey = identityKeyUtil(identity);
 
-  if (!identityKey) {
-    return next(createHttpError[400](""));
-  }
+  // if (!identityKey) {
+  //   return next(createHttpError[400](""));
+  // }
 
   // find user if already have registered
   const haveUser = await prisma.user.findUnique({
@@ -48,6 +50,14 @@ export const register = async (req, res, next) => {
 
   const result = await prisma.user.create({ data: newUser });
 
+  // ! {
+  // // version ใหม่
+  // const haveUser = await getUserBy(identityKey, identity);
+  // if (haveUser) {
+  //   return next(createHttpError[409]("This user already register"));
+  // }
+  // const result = await createUser(user);
+  // !}
   res.json({
     msg: "Register Successful",
     result: result,
@@ -97,5 +107,5 @@ export const login = async (req, res, next) => {
 };
 
 export const getMe = (req, res) => {
-  res.json({ msg: "GetMe Controller" });
+  res.json({ user: req.user });
 };

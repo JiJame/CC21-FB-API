@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const mobileRegex = /^[0-9]{10,15}$/;
+
 export const registerSchema = z
   .object({
     identity: z.string().min(2, "Email or Phone-number require"),
