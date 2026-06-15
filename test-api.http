@@ -7,7 +7,7 @@ content-type: application/json
  #"identity" : "someone@ggg.mail",
  "firstName" : "someone",
  "lastName" : "codecamp",
- "password" : "123456",
+ "password" : "12345",
  "confirmPassword" : "123456"
 }
 ###
