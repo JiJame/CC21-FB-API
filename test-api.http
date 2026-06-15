@@ -26,3 +26,13 @@ Content-Type: application/json
  "password" : "a1234"
 }
 ###
+
+# Login api
+POST http://localhost:8899/api/auth/login HTTP/1.1
+content-type: application/json
+
+{
+ "identity" : "andy@ggg.mail",
+ "password" : "123456"
+}
+###

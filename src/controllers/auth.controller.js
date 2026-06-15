@@ -1,8 +1,9 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import createHttpError from "http-errors";
 import identityKeyUtil from "../utils/identity-key.util.js";
 import prisma from "../config/prisma.config.js";
-import { registerSchema } from "../validations/schema.js";
+import { registerSchema, loginSchema } from "../validations/schema.js";
 
 export const register = async (req, res, next) => {
   const { identity, firstName, lastName, password, confirmPassword } = req.body;
@@ -53,13 +54,45 @@ export const register = async (req, res, next) => {
   });
 };
 
-export const login = (req, res, next) => {
+export const login = async (req, res, next) => {
   // if (req.body.password === "a1234") {
   //   return next(createHttpError[400]("bad password"));
   // }
+  const { identity, password } = req.body;
+  const user = loginSchema.parse(req.body);
+  const identityKey = identityKeyUtil(identity);
+
+  if (!identityKey) {
+    return next(createHttpError[400]("identity must be email or phone number"));
+  }
+
+  const foundUser = await prisma.user.findUnique({
+    where: { [identityKey]: identity },
+  });
+
+  // ถ้าไม่มี user
+  if (!foundUser) {
+    return next(createHttpError[401]("Invalid Login"));
+  }
+
+  // Check password
+  let pwOk = await bcrypt.compare(password, foundUser.password);
+  if (!pwOk) {
+    return next(createHttpError[401]("Invalid Login"));
+  }
+
+  const payload = { id: foundUser.id };
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    algorithm: "HS256",
+    expiresIn: "15d",
+  });
+  // console.log(token);
+  const { password: pw, createdAt, updatedAt, ...userData } = foundUser;
+
   res.json({
-    msg: "Login Controller",
-    body: req.body,
+    msg: "Login Successful",
+    token: token,
+    user: userData,
   });
 };
 
