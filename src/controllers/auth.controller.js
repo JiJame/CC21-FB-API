@@ -59,7 +59,7 @@ export const register = async (req, res, next) => {
   // const result = await createUser(user);
   // !}
   res.json({
-    msg: "Register Successful",
+    message: "Register Successful",
     result: result,
   });
 };
@@ -100,7 +100,7 @@ export const login = async (req, res, next) => {
   const { password: pw, createdAt, updatedAt, ...userData } = foundUser;
 
   res.json({
-    msg: "Login Successful",
+    message: "Login Successful",
     token: token,
     user: userData,
   });
