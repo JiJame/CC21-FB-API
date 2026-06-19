@@ -1,4 +1,4 @@
-export default function (identity) {
+function identityKeyCheck(identity) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const mobileRegex = /^[0-9]{10,15}$/;
 
@@ -9,6 +9,7 @@ export default function (identity) {
   if (mobileRegex.test(identity)) {
     identityKey = "mobile";
   }
-
   return identityKey;
 }
+
+export default identityKeyCheck;
